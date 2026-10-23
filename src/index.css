@@ -1,0 +1,5 @@
+/* 
+  Tailwind CSS v4 main entry import (PRD Requirement TW1).
+  In Tailwind v4, this single @import replaces the old @tailwind base/components/utilities directives.
+*/
+@import "tailwindcss";
