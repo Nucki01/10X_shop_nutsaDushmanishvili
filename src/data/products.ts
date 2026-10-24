@@ -57,9 +57,9 @@ export const DM_PRODUCTS: Product[] = [
     description:
       'Pore-refining facial serum with 10% niacinamide and 1% zinc to smooth skin texture and strengthen the skin barrier.',
     thumbnail:
-      'https://images.unsplash.com/photo-1608248597359-0e6d526a6c18?auto=format&fit=crop&w=600&q=80',
+      'https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=600&q=80',
     images: [
-      'https://images.unsplash.com/photo-1608248597359-0e6d526a6c18?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&w=800&q=80',
     ],
   },
   {
@@ -163,9 +163,9 @@ export const DM_PRODUCTS: Product[] = [
     description:
       'pH skin-neutral creamy shower gel with a fruity buttermilk and sweet lemon scent that protects skin from drying out.',
     thumbnail:
-      'https://images.unsplash.com/photo-1559599101-f09722fb4948?auto=format&fit=crop&w=600&q=80',
+      'https://cdn.dummyjson.com/product-images/skin-care/olay-ultra-moisture-shea-butter-body-wash/1.webp',
     images: [
-      'https://images.unsplash.com/photo-1559599101-f09722fb4948?auto=format&fit=crop&w=800&q=80',
+      'https://cdn.dummyjson.com/product-images/skin-care/olay-ultra-moisture-shea-butter-body-wash/1.webp',
     ],
   },
   {
