@@ -1,70 +1,37 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import type { AuthUser } from '../types/user'
 
-// Shape of the value shared by AuthContext across the app (PRD Step 5 & P0.2)
-export interface AuthContextValue {
+// What AuthContext shares with other components (CORE Step 5)
+interface AuthContextType {
   user: AuthUser
   login: (username: string) => void
   logout: () => void
 }
 
-const STORAGE_KEY = 'shop_user'
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-// Type guard to safely verify data read from localStorage (PRD Section T3: no `as` cast without guard)
-function isAuthUser(value: unknown): value is AuthUser {
-  if (typeof value !== 'object' || value === null) return false
-  const candidate = value as Record<string, unknown>
-  return (
-    typeof candidate.username === 'string' &&
-    typeof candidate.isLoggedIn === 'boolean'
-  )
-}
-
-// Load initial auth state safely from localStorage (or default to guest state)
-function getInitialUser(): AuthUser {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return { username: '', isLoggedIn: false }
-    const parsed: unknown = JSON.parse(raw)
-    if (isAuthUser(parsed) && parsed.isLoggedIn && parsed.username.trim()) {
-      return parsed
-    }
-  } catch {
-    // If localStorage is unavailable or corrupted, fall back safely to guest
-  }
-  return { username: '', isLoggedIn: false }
-}
-
-// Create the context with `undefined` default so useAuth() can detect if used outside AuthProvider
-const AuthContext = createContext<AuthContextValue | undefined>(undefined)
-
-// AuthProvider wraps the app and provides `user`, `login`, and `logout` to any child component
+// AuthProvider holds the login state in React using useState
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser>(getInitialUser)
+  // By default, the user is a guest (not logged in)
+  const [user, setUser] = useState<AuthUser>({
+    username: '',
+    isLoggedIn: false,
+  })
 
-  // Sets logged-in state in React Context (simulated local login per PRD P1.3)
-  const login = (username: string): void => {
-    const nextUser: AuthUser = {
+  // Log in: save the username and set isLoggedIn to true
+  function login(username: string) {
+    setUser({
       username: username.trim(),
       isLoggedIn: true,
-    }
-    setUser(nextUser)
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(nextUser))
-    } catch {
-      // Ignore storage write errors
-    }
+    })
   }
 
-  // Resets user back to guest state without touching the shopping cart (PRD P0.3)
-  const logout = (): void => {
-    const guestUser: AuthUser = { username: '', isLoggedIn: false }
-    setUser(guestUser)
-    try {
-      localStorage.removeItem(STORAGE_KEY)
-    } catch {
-      // Ignore storage remove errors
-    }
+  // Log out: reset back to guest state
+  function logout() {
+    setUser({
+      username: '',
+      isLoggedIn: false,
+    })
   }
 
   return (
@@ -74,11 +41,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 }
 
-// Custom hook for consuming AuthContext cleanly in components (e.g., Header, LoginPage, ProtectedRoute)
-export function useAuth(): AuthContextValue {
+// Helper hook so any component can easily read `user`, `login`, and `logout`
+export function useAuth() {
   const context = useContext(AuthContext)
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider')
+    throw new Error('useAuth must be used inside AuthProvider')
   }
   return context
 }

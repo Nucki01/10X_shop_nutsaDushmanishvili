@@ -1,6 +1,5 @@
 // src/types/user.ts
-// Domain models for local Authentication and Login form (PRD Section A1.5 & P1).
-// Note: Login in CORE is a local React Context simulation (no external auth API).
+// TypeScript types for our simple local Login state (CORE Step 3).
 
 export interface AuthUser {
   username: string

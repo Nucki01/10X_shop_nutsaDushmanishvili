@@ -1,5 +1,5 @@
 // src/types/cart.ts
-// Domain models for Shopping Cart items and state (PRD Section A1.5 & P4).
+// TypeScript type for a single item inside the Shopping Cart (CORE Step 3).
 
 export interface CartItem {
   productId: number
@@ -9,9 +9,4 @@ export interface CartItem {
   discountPercentage: number
   stock: number
   quantity: number
-}
-
-export interface CartState {
-  items: CartItem[]
-  promoCode?: string | null
 }
