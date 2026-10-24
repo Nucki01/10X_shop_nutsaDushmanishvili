@@ -1,60 +1,64 @@
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import type { Product, ProductsResponse } from '../types/product'
+import { ProductGrid } from '../components/product/ProductGrid'
 
-// P2 — Catalog Page (/)
-// Currently renders the route skeleton; in Step 7/8 we will connect GET /products from DummyJSON.
+// P2 — Catalog Page (/) [CORE Steps 7 & 8]
+// Fetches products from DummyJSON API when the page loads using useEffect.
 export function CatalogPage() {
+  // 1. State for storing the products list, loading status, and any error message
+  const [products, setProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  // 2. Fetch products once when CatalogPage mounts (empty dependency array `[]`)
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        setIsLoading(true)
+        setError('')
+
+        const response = await fetch('https://dummyjson.com/products?limit=12&skip=0')
+        if (!response.ok) {
+          throw new Error('Failed to load products from the server.')
+        }
+
+        const data = (await response.json()) as ProductsResponse
+        setProducts(data.products)
+      } catch {
+        setError('Could not load products. Please check your internet connection.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    loadProducts()
+  }, [])
+
   return (
     <section className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-stone-900">Catalog</h1>
-          <p className="text-sm text-stone-600">
-            Browse products from our collection.
-          </p>
-        </div>
+      <div>
+        <h1 className="text-2xl font-bold text-stone-900">Catalog</h1>
+        <p className="text-sm text-stone-600">Browse our latest products</p>
       </div>
 
-      {/* Temporary navigation links to verify all CORE routes work without reload (PRD Step 4) */}
-      <div className="bg-white border border-stone-200 rounded-xl p-6 space-y-4 shadow-xs">
-        <h2 className="text-base font-semibold text-stone-800">
-          Route Verification (Step 4)
-        </h2>
-        <p className="text-sm text-stone-600">
-          Click any route below to test client-side React Router navigation without page reload:
+      {/* 3. Conditional Rendering: Loading -> Error -> Empty -> ProductGrid */}
+      {isLoading && (
+        <p className="text-stone-600 py-8 text-center">Loading products...</p>
+      )}
+
+      {!isLoading && error && (
+        <p className="text-red-600 bg-red-50 border border-red-200 rounded-lg p-4">
+          {error}
         </p>
-        <div className="flex flex-wrap gap-3 text-sm">
-          <Link
-            to="/products/1"
-            className="bg-emerald-50 text-emerald-800 hover:bg-emerald-100 px-3.5 py-2 rounded-lg font-medium transition-colors"
-          >
-            Sample Product (/products/1)
-          </Link>
-          <Link
-            to="/cart"
-            className="bg-stone-100 text-stone-800 hover:bg-stone-200 px-3.5 py-2 rounded-lg font-medium transition-colors"
-          >
-            Cart (/cart)
-          </Link>
-          <Link
-            to="/checkout"
-            className="bg-stone-100 text-stone-800 hover:bg-stone-200 px-3.5 py-2 rounded-lg font-medium transition-colors"
-          >
-            Checkout (/checkout)
-          </Link>
-          <Link
-            to="/login"
-            className="bg-stone-100 text-stone-800 hover:bg-stone-200 px-3.5 py-2 rounded-lg font-medium transition-colors"
-          >
-            Login (/login)
-          </Link>
-          <Link
-            to="/non-existent-route"
-            className="bg-rose-50 text-rose-700 hover:bg-rose-100 px-3.5 py-2 rounded-lg font-medium transition-colors"
-          >
-            Test 404 Page (/non-existent-route)
-          </Link>
-        </div>
-      </div>
+      )}
+
+      {!isLoading && !error && products.length === 0 && (
+        <p className="text-stone-600 py-8 text-center">No products found.</p>
+      )}
+
+      {!isLoading && !error && products.length > 0 && (
+        <ProductGrid products={products} />
+      )}
     </section>
   )
 }
