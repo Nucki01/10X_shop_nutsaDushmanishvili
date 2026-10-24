@@ -1,10 +1,21 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { Container } from '../ui/Container'
+import { useAuth } from '../../context/AuthContext'
 
 // Shared Header Component (PRD Requirement P0.3)
-// Uses React Router's <Link> and <NavLink> so navigation happens without full page reloads.
-// <NavLink> provides an `isActive` boolean so we can highlight the current active route.
+// Connects to AuthContext to display either:
+// - Guest view: "Log in" link to /login
+// - Logged-in view: current username + "Log out" button (which resets AuthContext and navigates to "/")
 export function Header() {
+  const { user, logout } = useAuth()
+  const navigate = useNavigate()
+
+  // Handles logging out: sets user to guest in AuthContext and returns to Catalog ("/")
+  const handleLogout = (): void => {
+    logout()
+    navigate('/')
+  }
+
   // Helper function for NavLink className based on whether the route is currently active
   const getNavLinkClass = ({ isActive }: { isActive: boolean }): string =>
     `px-3 py-1.5 rounded-md text-sm font-medium transition-colors focus:outline-2 focus:outline-offset-2 focus:outline-emerald-300 ${
@@ -34,18 +45,34 @@ export function Header() {
             <span>Cart</span>
           </NavLink>
 
-          <NavLink
-            to="/login"
-            className={({ isActive }) =>
-              `px-3.5 py-1.5 rounded-md text-sm font-medium transition-colors focus:outline-2 focus:outline-offset-2 focus:outline-emerald-300 ${
-                isActive
-                  ? 'bg-white text-emerald-900 font-semibold'
-                  : 'bg-emerald-600 text-white hover:bg-emerald-500'
-              }`
-            }
-          >
-            Log in
-          </NavLink>
+          {/* Conditional Rendering based on AuthContext state (PRD P0.3) */}
+          {user.isLoggedIn ? (
+            <div className="flex items-center gap-2">
+              <span className="text-xs sm:text-sm text-emerald-100 font-medium px-2 py-1 bg-emerald-900/50 rounded-md">
+                Hi, {user.username}
+              </span>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="px-3.5 py-1.5 rounded-md text-sm font-medium bg-emerald-600 text-white hover:bg-emerald-500 transition-colors cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-emerald-300"
+              >
+                Log out
+              </button>
+            </div>
+          ) : (
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                `px-3.5 py-1.5 rounded-md text-sm font-medium transition-colors focus:outline-2 focus:outline-offset-2 focus:outline-emerald-300 ${
+                  isActive
+                    ? 'bg-white text-emerald-900 font-semibold'
+                    : 'bg-emerald-600 text-white hover:bg-emerald-500'
+                }`
+              }
+            >
+              Log in
+            </NavLink>
+          )}
         </nav>
       </Container>
     </header>

@@ -1,13 +1,17 @@
 import { BrowserRouter } from 'react-router-dom'
+import { AuthProvider } from './context/AuthContext'
 import { AppRoutes } from './routes/AppRoutes'
 
-// Root App Component (PRD Requirement P0.1: Single BrowserRouter)
-// Wraps the route map in <BrowserRouter> to enable client-side SPA routing.
+// Root App Component (PRD Requirement P0.1 & P0.2)
+// Wraps the application in <AuthProvider> and a single <BrowserRouter>
+// so authentication state and routing are available to all pages and Header.
 export function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   )
 }
 
