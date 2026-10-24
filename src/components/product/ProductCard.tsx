@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import type { Product } from '../../types/product'
 
-// Props for ProductCard (CORE Step 8 & P2.3)
+// Props for ProductCard
 interface ProductCardProps {
   product: Product
 }
 
 // Reusable ProductCard Component
-// Displays a single product's image, title, category, price, and link to details.
+// Displays a dm product's picture, category, name, short description, and price in Euros (€).
 export function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="bg-white border border-stone-200 rounded-xl p-4 flex flex-col justify-between">
@@ -19,21 +19,26 @@ export function ProductCard({ product }: ProductCardProps) {
           loading="lazy"
           width={300}
           height={300}
-          className="w-full h-48 object-contain bg-stone-50 rounded-lg"
+          className="w-full h-48 object-cover bg-stone-100 rounded-lg"
         />
 
-        <div>
-          <p className="text-xs text-stone-500 capitalize">{product.category}</p>
-          <h2 className="font-semibold text-stone-900 line-clamp-1 hover:text-emerald-700">
+        <div className="space-y-1">
+          <span className="inline-block text-xs font-medium text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md">
+            {product.category}
+          </span>
+          <h2 className="font-semibold text-stone-900 hover:text-emerald-700">
             {product.title}
           </h2>
+          <p className="text-xs text-stone-600 line-clamp-2">
+            {product.description}
+          </p>
         </div>
       </Link>
 
-      {/* Price and View Details link */}
+      {/* Price in Euros (€) and View Details button */}
       <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between">
         <span className="text-lg font-bold text-emerald-800">
-          ${product.price.toFixed(2)}
+          €{product.price.toFixed(2)}
         </span>
 
         <Link

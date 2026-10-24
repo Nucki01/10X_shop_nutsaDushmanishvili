@@ -1,64 +1,54 @@
-import { useEffect, useState } from 'react'
-import type { Product, ProductsResponse } from '../types/product'
+import { useState } from 'react'
+import { CATEGORIES, DM_PRODUCTS } from '../data/products'
 import { ProductGrid } from '../components/product/ProductGrid'
 
-// P2 — Catalog Page (/) [CORE Steps 7 & 8]
-// Fetches products from DummyJSON API when the page loads using useEffect.
+// P2 — Catalog Page (/)
+// Displays our 12 realistic dm (drogerie-markt) products and lets the user filter by category.
 export function CatalogPage() {
-  // 1. State for storing the products list, loading status, and any error message
-  const [products, setProducts] = useState<Product[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState('')
+  // State for the currently selected category ('All', 'Skincare', 'Hair Care', or 'Body & Personal Care')
+  const [selectedCategory, setSelectedCategory] = useState<string>('All')
 
-  // 2. Fetch products once when CatalogPage mounts (empty dependency array `[]`)
-  useEffect(() => {
-    async function loadProducts() {
-      try {
-        setIsLoading(true)
-        setError('')
-
-        const response = await fetch('https://dummyjson.com/products?limit=12&skip=0')
-        if (!response.ok) {
-          throw new Error('Failed to load products from the server.')
-        }
-
-        const data = (await response.json()) as ProductsResponse
-        setProducts(data.products)
-      } catch {
-        setError('Could not load products. Please check your internet connection.')
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    loadProducts()
-  }, [])
+  // Filter products based on the selected category
+  const filteredProducts =
+    selectedCategory === 'All'
+      ? DM_PRODUCTS
+      : DM_PRODUCTS.filter((product) => product.category === selectedCategory)
 
   return (
     <section className="space-y-6">
+      {/* Page Title */}
       <div>
-        <h1 className="text-2xl font-bold text-stone-900">Catalog</h1>
-        <p className="text-sm text-stone-600">Browse our latest products</p>
+        <h1 className="text-2xl font-bold text-stone-900">
+          dm Drogerie-Markt Catalog
+        </h1>
+        <p className="text-sm text-stone-600">
+          Browse our Skincare, Hair Care, and Body & Personal Care products
+        </p>
       </div>
 
-      {/* 3. Conditional Rendering: Loading -> Error -> Empty -> ProductGrid */}
-      {isLoading && (
-        <p className="text-stone-600 py-8 text-center">Loading products...</p>
-      )}
+      {/* Category Filter Buttons */}
+      <div className="flex flex-wrap gap-2">
+        {CATEGORIES.map((category) => {
+          const isActive = selectedCategory === category
+          return (
+            <button
+              key={category}
+              type="button"
+              onClick={() => setSelectedCategory(category)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium cursor-pointer transition-colors ${
+                isActive
+                  ? 'bg-emerald-700 text-white'
+                  : 'bg-white border border-stone-200 text-stone-700 hover:bg-stone-100'
+              }`}
+            >
+              {category}
+            </button>
+          )
+        })}
+      </div>
 
-      {!isLoading && error && (
-        <p className="text-red-600 bg-red-50 border border-red-200 rounded-lg p-4">
-          {error}
-        </p>
-      )}
-
-      {!isLoading && !error && products.length === 0 && (
-        <p className="text-stone-600 py-8 text-center">No products found.</p>
-      )}
-
-      {!isLoading && !error && products.length > 0 && (
-        <ProductGrid products={products} />
-      )}
+      {/* Product Grid */}
+      <ProductGrid products={filteredProducts} />
     </section>
   )
 }
