@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { Product } from '../../types/product'
+import { useCart } from '../../context/CartContext'
 
 // Props for ProductCard
 interface ProductCardProps {
@@ -7,8 +8,10 @@ interface ProductCardProps {
 }
 
 // Reusable ProductCard Component
-// Displays a dm product's picture, category, name, short description, and price in Euros (€).
+// Displays a dm product's picture, category, name, short description, Euro price, and Add to cart button.
 export function ProductCard({ product }: ProductCardProps) {
+  const { addItem } = useCart()
+
   return (
     <div className="bg-white border border-stone-200 rounded-xl p-4 flex flex-col justify-between">
       {/* Clicking the image or title opens the Product Details page (/products/:id) */}
@@ -35,18 +38,20 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
 
-      {/* Price in Euros (€) and View Details button */}
-      <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between">
+      {/* Price in Euros (€) and Add to cart button */}
+      <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
         <span className="text-lg font-bold text-emerald-800">
           €{product.price.toFixed(2)}
         </span>
 
-        <Link
-          to={`/products/${product.id}`}
-          className="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-medium px-3 py-2 rounded-lg"
+        <button
+          type="button"
+          onClick={() => addItem(product, 1)}
+          disabled={product.stock === 0}
+          className="bg-emerald-700 hover:bg-emerald-800 disabled:bg-stone-300 text-white text-xs font-medium px-3 py-2 rounded-lg cursor-pointer"
         >
-          View details
-        </Link>
+          {product.stock === 0 ? 'Out of stock' : 'Add to cart'}
+        </button>
       </div>
     </div>
   )

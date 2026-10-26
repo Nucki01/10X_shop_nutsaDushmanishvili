@@ -1,16 +1,19 @@
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
+import { CartProvider } from './context/CartContext'
 import { AppRoutes } from './routes/AppRoutes'
 
-// Root App Component (PRD Requirement P0.1 & P0.2)
-// Wraps the application in <AuthProvider> and a single <BrowserRouter>
-// so authentication state and routing are available to all pages and Header.
+// Root App Component
+// Wraps the app in AuthProvider, CartProvider, and BrowserRouter so login state,
+// shopping cart state, and routing work on every page.
 export function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
+      <CartProvider>
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </CartProvider>
     </AuthProvider>
   )
 }

@@ -1,10 +1,13 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { Container } from '../ui/Container'
 import { useAuth } from '../../context/AuthContext'
+import { useCart } from '../../context/CartContext'
 
-// Shared Header Component (CORE Step 4 & P0.3)
+// Shared Header Component (CORE Step 4 & Step 12)
+// Displays navigation links, live Cart item badge, and Login/Logout button.
 export function Header() {
   const { user, logout } = useAuth()
+  const { totalItems } = useCart()
   const navigate = useNavigate()
 
   function handleLogout() {
@@ -32,13 +35,21 @@ export function Header() {
             Catalog
           </NavLink>
 
+          {/* Cart link with live badge showing totalItems (hidden when 0 per PRD P0.3) */}
           <NavLink
             to="/cart"
             className={({ isActive }) =>
-              isActive ? 'font-bold underline' : 'hover:underline'
+              `flex items-center gap-1.5 ${
+                isActive ? 'font-bold underline' : 'hover:underline'
+              }`
             }
           >
-            Cart
+            <span>Cart</span>
+            {totalItems > 0 && (
+              <span className="bg-white text-emerald-900 text-xs font-bold px-2 py-0.5 rounded-full">
+                {totalItems}
+              </span>
+            )}
           </NavLink>
 
           {/* Show Username + Log out if logged in, otherwise show Log in */}
