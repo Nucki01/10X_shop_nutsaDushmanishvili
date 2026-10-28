@@ -1,54 +1,68 @@
 import { Link } from 'react-router-dom'
 import type { Product } from '../../types/product'
 import { useCart } from '../../context/CartContext'
+import { formatPrice } from '../../utils/format'
 
 // Props for ProductCard
 interface ProductCardProps {
   product: Product
 }
 
-// Reusable ProductCard Component
-// Displays a dm product's picture, category, name, short description, Euro price, and Add to cart button.
+// Reusable ProductCard Component (styled in Velvety Beauty & Wellness style)
 export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart()
 
   return (
-    <div className="bg-white border border-stone-200 rounded-xl p-4 flex flex-col justify-between">
+    <div className="bg-white border border-stone-200/80 p-4 flex flex-col justify-between transition-shadow hover:shadow-md">
       {/* Clicking the image or title opens the Product Details page (/products/:id) */}
       <Link to={`/products/${product.id}`} className="block space-y-3">
-        <img
-          src={product.thumbnail}
-          alt={product.title}
-          loading="lazy"
-          width={300}
-          height={300}
-          className="w-full h-48 object-cover bg-stone-100 rounded-lg"
-        />
+        {/* Soft sage-mist image frame */}
+        <div className="bg-velvety-mist/60 p-3">
+          <img
+            src={product.thumbnail}
+            alt={product.title}
+            loading="lazy"
+            width={300}
+            height={300}
+            className="w-full h-52 object-cover bg-white"
+          />
+        </div>
 
-        <div className="space-y-1">
-          <span className="inline-block text-xs font-medium text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md">
-            {product.category}
-          </span>
-          <h2 className="font-semibold text-stone-900 hover:text-emerald-700">
+        <div className="space-y-1 pt-1">
+          {/* Brand, Category & Star Rating */}
+          <div className="flex items-center justify-between text-[11px] uppercase tracking-wider text-stone-500">
+            <span>
+              {product.brand ? `${product.brand} · ` : ''}
+              {product.category}
+            </span>
+            <span className="text-velvety-sage font-semibold">
+              ★ {product.rating.toFixed(1)}
+            </span>
+          </div>
+
+          {/* Serif Product Title */}
+          <h2 className="font-serif text-lg text-velvety-ink hover:text-velvety-sage transition-colors line-clamp-1">
             {product.title}
           </h2>
-          <p className="text-xs text-stone-600 line-clamp-2">
+
+          {/* Short Description */}
+          <p className="text-xs text-stone-600 line-clamp-2 leading-relaxed">
             {product.description}
           </p>
         </div>
       </Link>
 
       {/* Price in Euros (€) and Add to cart button */}
-      <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
-        <span className="text-lg font-bold text-emerald-800">
-          €{product.price.toFixed(2)}
+      <div className="mt-4 pt-3 border-t border-stone-200/70 flex items-center justify-between gap-2">
+        <span className="font-serif text-lg font-bold text-velvety-green">
+          {formatPrice(product.price)}
         </span>
 
         <button
           type="button"
           onClick={() => addItem(product, 1)}
           disabled={product.stock === 0}
-          className="bg-emerald-700 hover:bg-emerald-800 disabled:bg-stone-300 text-white text-xs font-medium px-3 py-2 rounded-lg cursor-pointer"
+          className="bg-velvety-green hover:bg-velvety-sage disabled:bg-stone-300 text-white text-xs uppercase tracking-wider font-medium px-3.5 py-2 cursor-pointer transition-colors"
         >
           {product.stock === 0 ? 'Out of stock' : 'Add to cart'}
         </button>
