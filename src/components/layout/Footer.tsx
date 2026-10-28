@@ -1,12 +1,21 @@
 import { Container } from '../ui/Container'
 
-// Shared Footer Component (PRD Requirement P0.1 & O3 semantic HTML)
+// Shared Footer Component (styled with Velvety @theme tokens)
 export function Footer() {
   return (
-    <footer className="bg-white border-t border-stone-200 mt-auto">
-      <Container className="py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-stone-500">
-        <p>© 2026 10X Shop — Plantify Edition. Built with React, TypeScript & Tailwind CSS v4.</p>
-        <p>Powered by DummyJSON API</p>
+    <footer className="bg-velvety-green text-velvety-mist/80 border-t border-white/10 mt-auto">
+      <Container className="py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <div>
+          <p className="font-serif text-base text-white tracking-widest uppercase">
+            10X Shop
+          </p>
+          <p className="text-velvety-mist/70 mt-1">
+            Natural facial, hair, and body care essentials.
+          </p>
+        </div>
+        <p className="text-velvety-mist/70">
+          © 2026 10X Shop · Built by Nutsa Dushmanishvili
+        </p>
       </Container>
     </footer>
   )

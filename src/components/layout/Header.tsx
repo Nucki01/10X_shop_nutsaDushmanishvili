@@ -3,8 +3,8 @@ import { Container } from '../ui/Container'
 import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
 
-// Shared Header Component (CORE Step 4 & Step 12)
-// Displays navigation links, live Cart item badge, and Login/Logout button.
+// Shared Header Component (styled with Velvety @theme tokens — PRD TW5)
+// Uses `bg-velvety-green`, `text-velvety-mist`, and `font-serif` defined in src/index.css.
 export function Header() {
   const { user, logout } = useAuth()
   const { totalItems } = useCart()
@@ -16,50 +16,56 @@ export function Header() {
   }
 
   return (
-    <header className="bg-emerald-800 text-white">
-      <Container className="py-4 flex flex-wrap items-center justify-between gap-3">
-        {/* Brand Logo -> Catalog (/) */}
-        <Link to="/" className="text-xl font-bold">
-          10X Shop
+    <header className="bg-velvety-green text-white border-b border-white/10">
+      <Container className="py-5 flex flex-wrap items-center justify-between gap-4">
+        {/* Brand Logo in Velvety serif style */}
+        <Link to="/" className="flex flex-col">
+          <span className="font-serif text-2xl tracking-widest uppercase">
+            10X Shop
+          </span>
+          <span className="text-[10px] tracking-widest uppercase text-velvety-mist/80">
+            Beauty &amp; Personal Care
+          </span>
         </Link>
 
-        {/* Navigation Links */}
-        <nav className="flex flex-wrap items-center gap-4 text-sm">
+        {/* Minimalist Uppercase Navigation Links */}
+        <nav className="flex flex-wrap items-center gap-6 text-xs tracking-wider uppercase font-medium">
           <NavLink
             to="/"
             end
             className={({ isActive }) =>
-              isActive ? 'font-bold underline' : 'hover:underline'
+              isActive
+                ? 'text-white underline underline-offset-4 font-semibold'
+                : 'text-velvety-mist hover:text-white transition-colors'
             }
           >
-            Catalog
+            Shop
           </NavLink>
 
-          {/* Cart link with live badge showing totalItems (hidden when 0 per PRD P0.3) */}
+          {/* Cart link with live item count */}
           <NavLink
             to="/cart"
             className={({ isActive }) =>
               `flex items-center gap-1.5 ${
-                isActive ? 'font-bold underline' : 'hover:underline'
+                isActive
+                  ? 'text-white underline underline-offset-4 font-semibold'
+                  : 'text-velvety-mist hover:text-white transition-colors'
               }`
             }
           >
-            <span>Cart</span>
-            {totalItems > 0 && (
-              <span className="bg-white text-emerald-900 text-xs font-bold px-2 py-0.5 rounded-full">
-                {totalItems}
-              </span>
-            )}
+            <span>Cart ({totalItems})</span>
           </NavLink>
 
           {/* Show Username + Log out if logged in, otherwise show Log in */}
           {user.isLoggedIn ? (
             <div className="flex items-center gap-3">
-              <span className="text-emerald-200">{user.username}</span>
+              <span className="text-velvety-mist normal-case">
+                Hi, {user.username}
+              </span>
               <button
                 type="button"
                 onClick={handleLogout}
-                className="bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 rounded-md cursor-pointer"
+                className="bg-white text-velvety-green hover:bg-velvety-mist px-3.5 py-1.5 rounded-xs text-xs font-semibold uppercase tracking-wider cursor-pointer transition-colors"
               >
                 Log out
               </button>
@@ -67,7 +73,7 @@ export function Header() {
           ) : (
             <NavLink
               to="/login"
-              className="bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 rounded-md"
+              className="bg-white text-velvety-green hover:bg-velvety-mist px-3.5 py-1.5 rounded-xs text-xs font-semibold uppercase tracking-wider transition-colors"
             >
               Log in
             </NavLink>
