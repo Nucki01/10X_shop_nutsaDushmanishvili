@@ -1,5 +1,28 @@
 /* 
-  Tailwind CSS v4 main entry import (PRD Requirement TW1).
-  In Tailwind v4, this single @import replaces the old @tailwind base/components/utilities directives.
+  Tailwind CSS v4 main entry import (PRD Requirement TW1)
 */
 @import "tailwindcss";
+
+/* 
+  Custom Design Tokens using Tailwind v4 @theme (PRD FULL Requirement TW5)
+  Matches the "Velvety — Beauty & Wellness Website UI Kit" Figma palette:
+  - Deep botanical forest/sage green, soft sage mist, and warm cream background.
+  - These automatically create utility classes like:
+    `bg-velvety-green`, `text-velvety-ink`, `bg-velvety-cream`, `font-serif`, etc.
+*/
+@theme {
+  --color-velvety-green: #2f4333;
+  --color-velvety-sage: #4a6350;
+  --color-velvety-mist: #e9ede8;
+  --color-velvety-cream: #f6f5f0;
+  --color-velvety-ink: #1e2620;
+
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-velvety-cream);
+  color: var(--color-velvety-ink);
+}
