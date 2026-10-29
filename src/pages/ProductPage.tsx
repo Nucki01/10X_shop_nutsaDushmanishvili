@@ -52,12 +52,12 @@ export function ProductPage() {
 
       {/* Two-column layout on desktop (md:grid-cols-2), single column on mobile */}
       <div className="bg-white border border-stone-200 p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        {/* Left Column: Product Image inside soft sage-mist frame */}
-        <div className="bg-velvety-mist/60 p-6">
+        {/* Left Column: Product Image inside soft sage-mist frame (object-contain prevents ugly cropping) */}
+        <div className="bg-velvety-mist/60 p-6 flex items-center justify-center">
           <img
-            src={product.images[0] || product.thumbnail}
+            src={product.thumbnail}
             alt={product.title}
-            className="w-full h-80 object-cover bg-white"
+            className="w-full max-w-xs sm:max-w-sm max-h-80 object-contain bg-white p-2"
           />
         </div>
 
