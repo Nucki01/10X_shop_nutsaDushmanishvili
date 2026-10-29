@@ -7,8 +7,6 @@
   Custom Design Tokens using Tailwind v4 @theme (PRD FULL Requirement TW5)
   Matches the "Velvety — Beauty & Wellness Website UI Kit" Figma palette:
   - Deep botanical forest/sage green, soft sage mist, and warm cream background.
-  - These automatically create utility classes like:
-    `bg-velvety-green`, `text-velvety-ink`, `bg-velvety-cream`, `font-serif`, etc.
 */
 @theme {
   --color-velvety-green: #2f4333;
@@ -25,4 +23,10 @@ body {
   font-family: var(--font-sans);
   background-color: var(--color-velvety-cream);
   color: var(--color-velvety-ink);
+  font-variant-numeric: lining-nums;
+}
+
+/* Ensure Playfair Display numbers ("10" in 10X Shop and prices) match capital letter height */
+.font-serif {
+  font-variant-numeric: lining-nums;
 }

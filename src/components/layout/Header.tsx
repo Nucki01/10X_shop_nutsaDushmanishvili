@@ -4,7 +4,6 @@ import { useAuth } from '../../context/AuthContext'
 import { useCart } from '../../context/CartContext'
 
 // Shared Header Component (styled with Velvety @theme tokens — PRD TW5)
-// Uses `bg-velvety-green`, `text-velvety-mist`, and `font-serif` defined in src/index.css.
 export function Header() {
   const { user, logout } = useAuth()
   const { totalItems } = useCart()
@@ -18,9 +17,9 @@ export function Header() {
   return (
     <header className="bg-velvety-green text-white border-b border-white/10">
       <Container className="py-5 flex flex-wrap items-center justify-between gap-4">
-        {/* Brand Logo in Velvety serif style */}
+        {/* Brand Logo in Velvety serif style with lining-nums so "10" matches "X" height */}
         <Link to="/" className="flex flex-col">
-          <span className="font-serif text-2xl tracking-widest uppercase">
+          <span className="font-serif lining-nums text-2xl tracking-widest uppercase">
             10X Shop
           </span>
           <span className="text-[10px] tracking-widest uppercase text-velvety-mist/80">
