@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { DM_PRODUCTS } from '../data/products'
 import { useCart } from '../context/CartContext'
+import { formatPrice } from '../utils/format'
 import { NotFoundPage } from './NotFoundPage'
 
 // P3 — Product Details Page (/products/:id) [CORE Steps 10 & 11]
-// Uses useParams() to read the product ID, shows full details, and lets the user
-// choose a quantity and add the product to CartContext.
+// Styled with Velvety @theme tokens (font-serif, bg-velvety-mist, bg-velvety-green).
 export function ProductPage() {
   const { id } = useParams<{ id: string }>()
   const { addItem } = useCart()
@@ -26,7 +26,7 @@ export function ProductPage() {
 
   // Determine stock badge text and color (PRD Section P3.3)
   let stockText = 'In stock'
-  let stockColor = 'text-emerald-700 bg-emerald-50'
+  let stockColor = 'text-velvety-green bg-velvety-mist'
   if (product.stock === 0) {
     stockText = 'Out of stock'
     stockColor = 'text-red-700 bg-red-50'
@@ -43,39 +43,45 @@ export function ProductPage() {
 
   return (
     <section className="space-y-6">
-      <Link to="/" className="inline-block text-sm text-emerald-700 hover:underline">
+      <Link
+        to="/"
+        className="inline-block text-xs uppercase tracking-wider font-medium text-velvety-sage hover:text-velvety-green"
+      >
         ← Back to catalog
       </Link>
 
       {/* Two-column layout on desktop (md:grid-cols-2), single column on mobile */}
-      <div className="bg-white border border-stone-200 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Left Column: Product Image */}
-        <div>
+      <div className="bg-white border border-stone-200 p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+        {/* Left Column: Product Image inside soft sage-mist frame */}
+        <div className="bg-velvety-mist/60 p-6">
           <img
             src={product.images[0] || product.thumbnail}
             alt={product.title}
-            className="w-full h-80 object-cover bg-stone-100 rounded-xl"
+            className="w-full h-80 object-cover bg-white"
           />
         </div>
 
         {/* Right Column: Product Information & Controls */}
         <div className="space-y-4">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md">
+          <div className="flex items-center justify-between text-xs uppercase tracking-wider text-stone-500">
+            <span>
+              {product.brand ? `${product.brand} · ` : ''}
               {product.category}
             </span>
-            {product.brand && (
-              <span className="text-xs text-stone-500">Brand: {product.brand}</span>
-            )}
+            <span className="text-velvety-sage font-semibold">
+              ★ {product.rating.toFixed(1)}
+            </span>
           </div>
 
-          <h1 className="text-2xl font-bold text-stone-900">{product.title}</h1>
+          <h1 className="font-serif text-3xl text-velvety-ink">
+            {product.title}
+          </h1>
 
           <div className="flex items-center gap-3">
-            <span className="text-2xl font-bold text-emerald-800">
-              €{product.price.toFixed(2)}
+            <span className="font-serif text-2xl font-bold text-velvety-green">
+              {formatPrice(product.price)}
             </span>
-            <span className={`text-xs font-medium px-2.5 py-1 rounded-md ${stockColor}`}>
+            <span className={`text-xs font-medium px-2.5 py-1 ${stockColor}`}>
               {stockText}
             </span>
           </div>
@@ -85,13 +91,13 @@ export function ProductPage() {
           </p>
 
           {/* Quantity Stepper (- / +) and Add to Cart Button (PRD Step 11) */}
-          <div className="pt-4 border-t border-stone-100 flex flex-wrap items-center gap-4">
-            <div className="flex items-center border border-stone-300 rounded-lg">
+          <div className="pt-4 border-t border-stone-200 flex flex-wrap items-center gap-4">
+            <div className="flex items-center border border-stone-300 bg-velvety-cream">
               <button
                 type="button"
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                 disabled={quantity <= 1 || product.stock === 0}
-                className="px-3 py-2 text-sm font-bold disabled:opacity-40 cursor-pointer"
+                className="px-3.5 py-2 text-sm font-bold disabled:opacity-40 cursor-pointer"
               >
                 −
               </button>
@@ -100,7 +106,7 @@ export function ProductPage() {
                 type="button"
                 onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))}
                 disabled={quantity >= product.stock || product.stock === 0}
-                className="px-3 py-2 text-sm font-bold disabled:opacity-40 cursor-pointer"
+                className="px-3.5 py-2 text-sm font-bold disabled:opacity-40 cursor-pointer"
               >
                 +
               </button>
@@ -110,7 +116,7 @@ export function ProductPage() {
               type="button"
               onClick={handleAddToCart}
               disabled={product.stock === 0}
-              className="bg-emerald-700 hover:bg-emerald-800 disabled:bg-stone-300 text-white text-sm font-medium px-6 py-2.5 rounded-lg cursor-pointer"
+              className="bg-velvety-green hover:bg-velvety-sage disabled:bg-stone-300 text-white text-xs uppercase tracking-wider font-medium px-6 py-3 cursor-pointer transition-colors"
             >
               Add to cart
             </button>
@@ -118,7 +124,7 @@ export function ProductPage() {
 
           {/* Simple feedback message after adding to cart */}
           {addedMessage && (
-            <p className="text-sm text-emerald-700 font-medium">
+            <p className="text-sm text-velvety-green font-medium">
               Added to cart!{' '}
               <Link to="/cart" className="underline font-semibold">
                 View Cart

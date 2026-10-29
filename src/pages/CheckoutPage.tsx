@@ -10,13 +10,12 @@ import {
 import { formatPrice } from '../utils/format'
 
 // P5 — Checkout Page (/checkout) [CORE Steps 14 & 15]
-// Uses 4 controlled inputs (Full name, Email, Address, City), validates on submit,
-// shows the order confirmation screen, and clears the cart.
+// Styled with Velvety @theme tokens (font-serif, bg-velvety-green).
 export function CheckoutPage() {
   const { user } = useAuth()
   const { items, totalItems, totalPrice, clearCart } = useCart()
 
-  // 1. Controlled Form State for the 4 required fields (pre-fills name from AuthContext if available)
+  // 1. Controlled Form State for the 4 required fields
   const [fullName, setFullName] = useState(user.username || '')
   const [email, setEmail] = useState('')
   const [address, setAddress] = useState('')
@@ -40,14 +39,14 @@ export function CheckoutPage() {
   if (items.length === 0) {
     return (
       <section className="space-y-4">
-        <h1 className="text-2xl font-bold text-stone-900">Checkout</h1>
-        <div className="bg-white border border-stone-200 rounded-xl p-8 text-center">
-          <p className="text-stone-600 mb-4">
+        <h1 className="font-serif text-3xl text-velvety-ink">Checkout</h1>
+        <div className="bg-white border border-stone-200 p-10 text-center space-y-4">
+          <p className="text-stone-600">
             Your cart is empty. Please add items before checking out.
           </p>
           <Link
             to="/cart"
-            className="inline-block bg-emerald-700 hover:bg-emerald-800 text-white font-medium px-5 py-2.5 rounded-lg text-sm"
+            className="inline-block bg-velvety-green hover:bg-velvety-sage text-white text-xs uppercase tracking-wider font-medium px-6 py-3 transition-colors"
           >
             Back to cart
           </Link>
@@ -74,21 +73,26 @@ export function CheckoutPage() {
 
   return (
     <section className="space-y-6">
-      <h1 className="text-2xl font-bold text-stone-900">Checkout</h1>
+      <div className="border-b border-stone-200 pb-4">
+        <h1 className="font-serif text-3xl text-velvety-ink">Checkout</h1>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Side: Controlled Checkout Form (4 required fields) */}
         <form
           onSubmit={handleSubmit}
-          className="lg:col-span-2 bg-white border border-stone-200 rounded-xl p-6 space-y-4"
+          className="lg:col-span-2 bg-white border border-stone-200 p-6 sm:p-8 space-y-4"
         >
-          <h2 className="text-lg font-bold text-stone-900">
+          <h2 className="font-serif text-xl text-velvety-ink">
             Shipping Information
           </h2>
 
           {/* Field 1: Full Name */}
           <div>
-            <label htmlFor="fullName" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="fullName"
+              className="block text-xs uppercase tracking-wider font-medium text-velvety-ink mb-1.5"
+            >
               Full name
             </label>
             <input
@@ -97,7 +101,7 @@ export function CheckoutPage() {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               placeholder="e.g. Nutsa Dushmanishvili"
-              className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-2 focus:outline-emerald-600"
+              className="w-full border border-stone-300 bg-velvety-cream/50 px-3.5 py-2.5 text-sm focus:outline-2 focus:outline-velvety-green"
             />
             {errors.fullName && (
               <p className="text-xs text-red-600 mt-1">{errors.fullName}</p>
@@ -106,7 +110,10 @@ export function CheckoutPage() {
 
           {/* Field 2: Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="email"
+              className="block text-xs uppercase tracking-wider font-medium text-velvety-ink mb-1.5"
+            >
               Email
             </label>
             <input
@@ -115,7 +122,7 @@ export function CheckoutPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="e.g. nutsa@example.com"
-              className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-2 focus:outline-emerald-600"
+              className="w-full border border-stone-300 bg-velvety-cream/50 px-3.5 py-2.5 text-sm focus:outline-2 focus:outline-velvety-green"
             />
             {errors.email && (
               <p className="text-xs text-red-600 mt-1">{errors.email}</p>
@@ -124,7 +131,10 @@ export function CheckoutPage() {
 
           {/* Field 3: Address */}
           <div>
-            <label htmlFor="address" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="address"
+              className="block text-xs uppercase tracking-wider font-medium text-velvety-ink mb-1.5"
+            >
               Address
             </label>
             <input
@@ -133,7 +143,7 @@ export function CheckoutPage() {
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               placeholder="Street and building number"
-              className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-2 focus:outline-emerald-600"
+              className="w-full border border-stone-300 bg-velvety-cream/50 px-3.5 py-2.5 text-sm focus:outline-2 focus:outline-velvety-green"
             />
             {errors.address && (
               <p className="text-xs text-red-600 mt-1">{errors.address}</p>
@@ -142,7 +152,10 @@ export function CheckoutPage() {
 
           {/* Field 4: City */}
           <div>
-            <label htmlFor="city" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="city"
+              className="block text-xs uppercase tracking-wider font-medium text-velvety-ink mb-1.5"
+            >
               City
             </label>
             <input
@@ -151,7 +164,7 @@ export function CheckoutPage() {
               value={city}
               onChange={(e) => setCity(e.target.value)}
               placeholder="e.g. Tbilisi"
-              className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-2 focus:outline-emerald-600"
+              className="w-full border border-stone-300 bg-velvety-cream/50 px-3.5 py-2.5 text-sm focus:outline-2 focus:outline-velvety-green"
             />
             {errors.city && (
               <p className="text-xs text-red-600 mt-1">{errors.city}</p>
@@ -160,15 +173,15 @@ export function CheckoutPage() {
 
           <button
             type="submit"
-            className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-medium py-2.5 rounded-lg text-sm cursor-pointer"
+            className="w-full bg-velvety-green hover:bg-velvety-sage text-white text-xs uppercase tracking-wider font-medium py-3 cursor-pointer transition-colors"
           >
             Place order
           </button>
         </form>
 
         {/* Right Side: Cart Summary */}
-        <div className="bg-white border border-stone-200 rounded-xl p-6 h-fit space-y-4">
-          <h2 className="text-lg font-bold text-stone-900">Order Summary</h2>
+        <div className="bg-white border border-stone-200 p-6 h-fit space-y-4">
+          <h2 className="font-serif text-xl text-velvety-ink">Order Summary</h2>
 
           <ul className="space-y-2 text-sm border-b border-stone-200 pb-4">
             {items.map((item) => (
@@ -176,7 +189,7 @@ export function CheckoutPage() {
                 <span className="text-stone-600 truncate">
                   {item.title} × {item.quantity}
                 </span>
-                <span className="font-medium text-stone-900 shrink-0">
+                <span className="font-medium text-velvety-ink shrink-0">
                   {formatPrice(item.price * item.quantity)}
                 </span>
               </li>
@@ -188,9 +201,11 @@ export function CheckoutPage() {
             <span>{totalItems}</span>
           </div>
 
-          <div className="flex justify-between text-base font-bold text-stone-900">
+          <div className="flex justify-between text-base font-bold text-velvety-ink">
             <span>Total</span>
-            <span>{formatPrice(totalPrice)}</span>
+            <span className="font-serif text-xl text-velvety-green">
+              {formatPrice(totalPrice)}
+            </span>
           </div>
         </div>
       </div>

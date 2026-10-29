@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 // P1 — Login Page (/login) [CORE Step 5]
-// Uses simple controlled inputs with useState, onChange, and onSubmit.
+// Styled with Velvety @theme tokens (font-serif, bg-velvety-green).
 export function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
@@ -57,20 +57,29 @@ export function LoginPage() {
 
   return (
     <section className="max-w-md mx-auto my-6 space-y-4">
-      <Link to="/" className="text-sm text-emerald-700 hover:underline">
+      <Link
+        to="/"
+        className="inline-block text-xs uppercase tracking-wider font-medium text-velvety-sage hover:text-velvety-green"
+      >
         ← Back to catalog
       </Link>
 
-      <div className="bg-white border border-stone-200 rounded-xl p-6">
-        <h1 className="text-2xl font-bold mb-2">Log In</h1>
-        <p className="text-sm text-stone-600 mb-6">
+      <div className="bg-white border border-stone-200 p-6 sm:p-8">
+        <p className="text-xs uppercase tracking-widest text-velvety-sage mb-1">
+          Welcome Back
+        </p>
+        <h1 className="font-serif text-3xl text-velvety-ink mb-2">Log In</h1>
+        <p className="text-xs text-stone-600 mb-6">
           Enter any username and password (at least 6 characters).
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Username Input */}
           <div>
-            <label htmlFor="username" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="username"
+              className="block text-xs uppercase tracking-wider font-medium text-velvety-ink mb-1.5"
+            >
               Username
             </label>
             <input
@@ -79,7 +88,7 @@ export function LoginPage() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter username"
-              className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-2 focus:outline-emerald-600"
+              className="w-full border border-stone-300 bg-velvety-cream/50 px-3.5 py-2.5 text-sm focus:outline-2 focus:outline-velvety-green"
             />
             {usernameError && (
               <p className="text-xs text-red-600 mt-1">{usernameError}</p>
@@ -88,7 +97,10 @@ export function LoginPage() {
 
           {/* Password Input */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-1">
+            <label
+              htmlFor="password"
+              className="block text-xs uppercase tracking-wider font-medium text-velvety-ink mb-1.5"
+            >
               Password
             </label>
             <input
@@ -97,7 +109,7 @@ export function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="At least 6 characters"
-              className="w-full border border-stone-300 rounded-lg px-3 py-2 text-sm focus:outline-2 focus:outline-emerald-600"
+              className="w-full border border-stone-300 bg-velvety-cream/50 px-3.5 py-2.5 text-sm focus:outline-2 focus:outline-velvety-green"
             />
             {passwordError && (
               <p className="text-xs text-red-600 mt-1">{passwordError}</p>
@@ -107,7 +119,7 @@ export function LoginPage() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-medium py-2.5 rounded-lg text-sm cursor-pointer"
+            className="w-full bg-velvety-green hover:bg-velvety-sage text-white text-xs uppercase tracking-wider font-medium py-3 cursor-pointer transition-colors"
           >
             Log In
           </button>
