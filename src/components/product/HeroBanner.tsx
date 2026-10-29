@@ -1,5 +1,5 @@
 // HeroBanner Component (inspired by Velvety Beauty & Wellness UI Kit)
-// Displays a botanical sage-green hero section and 3 wellness highlights at the top of the Catalog page.
+// Displays a botanical sage-green hero section and 3 vegan/cruelty-free wellness highlights.
 export function HeroBanner() {
   return (
     <div className="rounded-xs overflow-hidden border border-stone-200 bg-white mb-10">
@@ -7,13 +7,13 @@ export function HeroBanner() {
       <div className="bg-velvety-sage text-white p-8 sm:p-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div className="space-y-4">
           <p className="text-xs uppercase tracking-widest text-velvety-mist">
-            dm Drogerie-Markt Collection
+            100% Vegan &amp; Cruelty-Free · dm Collection
           </p>
           <h1 className="font-serif text-3xl sm:text-5xl leading-tight">
             Let nature take care of your body and soul
           </h1>
           <p className="text-sm text-velvety-mist/90 max-w-md leading-relaxed">
-            Discover gentle daily skincare, nourishing hair care, and soothing
+            Discover gentle vegan skincare, plant-based hair care, and cruelty-free
             body essentials crafted for healthy, radiant skin.
           </p>
           <div className="pt-2">
@@ -30,34 +30,34 @@ export function HeroBanner() {
         <div className="flex justify-center">
           <img
             src="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&w=900&q=80"
-            alt="Natural skincare bottles and botanicals"
+            alt="Natural vegan skincare bottles and botanicals"
             className="w-full max-w-md h-64 sm:h-72 object-cover object-center rounded-xs border border-white/20"
           />
         </div>
       </div>
 
-      {/* Bottom Highlights Strip (3 simple wellness pillars) */}
+      {/* Bottom Highlights Strip (3 simple vegan & cruelty-free pillars) */}
       <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-stone-200 bg-velvety-mist/40 p-6 text-left">
         <div className="p-3 space-y-1">
           <h2 className="font-serif text-lg text-velvety-ink">
-            Dermatologically Tested
+            100% Cruelty-Free &amp; Vegan
           </h2>
           <p className="text-xs text-stone-600">
-            Gentle formulas suitable for sensitive skin and everyday routines.
+            All products in our store are 100% vegan, plant-based, and never tested on animals.
           </p>
         </div>
 
         <div className="p-3 space-y-1">
           <h2 className="font-serif text-lg text-velvety-ink">Fits Your Skin</h2>
           <p className="text-xs text-stone-600">
-            Balanced hydration with hyaluronic acid, niacinamide, and natural oils.
+            Balanced hydration with plant-derived hyaluronic acid, niacinamide, and organic oils.
           </p>
         </div>
 
         <div className="p-3 space-y-1">
           <h2 className="font-serif text-lg text-velvety-ink">Easy Daily Care</h2>
           <p className="text-xs text-stone-600">
-            Thoughtfully organized into Skincare, Hair Care, and Body Care.
+            Thoughtfully organized into vegan Skincare, Hair Care, and Body Care.
           </p>
         </div>
       </div>
